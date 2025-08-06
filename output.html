@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!-- saved from url=(0030)http://127.0.0.1:3002/inn.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><script type="text/javascript" src="./output_files/___vscode_livepreview_injected_script"></script>
+  
+  <title>My Quick Notes</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background-image: url('https://images.pexels.com/photos/5546909/pexels-photo-5546909.jpeg?_gl=1*1gn2tnj*_ga*MTI3ODI2MDMxMy4xNzM1NTkzOTI5*_ga_8JE65Q40S6*czE3NTQ0OTE3NjYkbzUkZzEkdDE3NTQ0OTMyOTIkajQ3JGwwJGgw');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .task-box {
+      background: rgba(255, 255, 255, 0.95);
+      padding: 30px 40px;
+      border-radius: 16px;
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+      width: 380px;
+      animation: fadeIn 0.5s ease-in-out;
+      text-align: center;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    h1 {
+      margin-bottom: 5px;
+      font-size: 28px;
+    }
+
+    .subtitle {
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
+    }
+
+    .input-group {
+      display: flex;
+      margin-bottom: 15px;
+    }
+
+    input[type="text"] {
+      flex: 1;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px 0 0 6px;
+    }
+
+    button {
+      padding: 10px 16px;
+      border: none;
+      background-color: #2d88ff;
+      color: white;
+      border-radius: 0 6px 6px 0;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #1866c9;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+      max-height: 250px;
+      overflow-y: auto;
+      text-align: left;
+    }
+
+    li {
+      background: #f2f2f2;
+      padding: 10px;
+      margin-bottom: 10px;
+      border-radius: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    li.done {
+      text-decoration: line-through;
+      color: gray;
+    }
+
+    .no-tasks {
+      text-align: center;
+      color: #777;
+      font-size: 13px;
+      margin-top: 10px;
+    }
+
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .deleteBtn {
+      background-color: #ff5c5c;
+      border: none;
+      color: white;
+      padding: 5px 10px;
+      border-radius: 4px;
+      font-size: 12px;
+      cursor: pointer;
+    }
+
+    .deleteBtn:hover {
+      background-color: #d42c2c;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="task-box">
+    <h1>🧠 My Quick Notes</h1>
+    <p class="subtitle">Your thoughts, tasks, and plans in one spot</p>
+
+    <div class="input-group">
+      <input type="text" id="taskInput" placeholder="Add a new task...">
+      <button id="addBtn">Add</button>
+    </div>
+
+    <div class="stats">
+      <span>Total: <span id="totalCount">0</span></span>
+      <span>✅ <span id="completedCount">0</span></span>
+      <span>🕒 <span id="pendingCount">0</span></span>
+    </div>
+
+    <ul id="taskList"></ul>
+    <p class="no-tasks" id="noTasksMsg" style="display: block;">Start adding your tasks now.</p>
+  </div>
+
+  <script>
+    const addBtn = document.getElementById('addBtn');
+    const taskInput = document.getElementById('taskInput');
+    const taskList = document.getElementById('taskList');
+    const totalCount = document.getElementById('totalCount');
+    const completedCount = document.getElementById('completedCount');
+    const pendingCount = document.getElementById('pendingCount');
+    const noTasksMsg = document.getElementById('noTasksMsg');
+
+    function updateStats() {
+      const tasks = taskList.querySelectorAll('li');
+      const completed = taskList.querySelectorAll('li.done');
+      totalCount.textContent = tasks.length;
+      completedCount.textContent = completed.length;
+      pendingCount.textContent = tasks.length - completed.length;
+      noTasksMsg.style.display = tasks.length === 0 ? 'block' : 'none';
+    }
+
+    addBtn.addEventListener('click', () => {
+      const text = taskInput.value.trim();
+      if (text === "") return;
+
+      const li = document.createElement('li');
+      li.innerHTML = `
+        <span class="task">${text}</span>
+        <button class="deleteBtn">✖</button>
+      `;
+
+      li.querySelector('.task').addEventListener('click', () => {
+        li.classList.toggle('done');
+        updateStats();
+      });
+
+      li.querySelector('.deleteBtn').addEventListener('click', () => {
+        li.remove();
+        updateStats();
+      });
+
+      taskList.appendChild(li);
+      taskInput.value = "";
+      updateStats();
+    });
+
+    updateStats();
+  </script>
+
+
+</body></html>
