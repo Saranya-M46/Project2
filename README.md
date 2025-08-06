@@ -1,0 +1,1 @@
+My Quick Notes is a clean and minimal To-Do List web application that helps users track their daily tasks with ease. It features a centered task manager UI with a beautiful background image, task statistics, and interactive controls to manage task completion and deletion.
